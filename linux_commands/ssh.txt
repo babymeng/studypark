@@ -1,0 +1,47 @@
+
+关于密钥和 authorized_keys 文件
+
+  ● SSH 密钥对
+    云主机在生成 SSH 公钥/私钥密钥对时，会要求你立刻下载其私钥，并保管好私钥，云服务商是不保存你的私钥的，只有公钥（public key）在云主机上。你在使用 SSH 时用到的 identity file 就是私钥（private key）文件。
+	使用 ssh-keygen 命令也可以自己生成。
+
+  ● ssh-keygen 命令
+
+	密钥对可通过 ssh-keygen -t rsa -C 'comment' -f filename-of-key-file 生成。该命令通常在 /usr/bin 下。
+	生成 2 个文件：filename-of-key-file（私钥） 和 filename-of-key-file.pub（公钥）。
+	不指定 -f 参数，则默认存到 ~/.ssh/下，生成 id_rsa 和 id_rsa.pub 两个文件。
+	不指定 -C 参数，则默认为 user@hostname。我习惯指定为和密钥文件名一致，比如：rsa-hostip-usr，比如：rsa-3git-michael；
+        ssh-keygen -b 2048 -t rsa   
+        ssh-keygen -t rsa 
+
+  ● ~/.ssh/authorized_keys
+
+  ● 公钥文件存放在 ~/.ssh/authorized_keys 文件中，一行一个。凡持有和其中任一公钥配对的私钥的用户都可以访问。
+
+        chmod -R 700 .ssh/ ；注意权限！
+        chmod 600 .ssh/authorized_keys ；注意权限！
+
+  ● ssh [user@]hostname
+    // 如果你已经配置过 ~/.ssh/config，则看一下这个配置文件，ssh 使用会更简单。
+    参阅：/etc/ssh/ssh_config，man ssh_config
+    # ~/.ssh/config 文件示例
+    # Host 参数标明以下内容仅适用于访问 236 主机时适用，Host 参数本身只是一个入口字符串；
+    Host 192.168.99.236
+      HostName 192.168.99.236
+      User git
+      Port 22
+      IdentityFile ~/.ssh/rsa-michael-236
+    Host 3root
+      HostName 192.168.99.3
+      User root
+      Port 22
+      IdentityFile ~/.ssh/rsa-3root-michael
+
+
+
+    ssh -i identity_file user@hostname
+    A,B
+    可以在B上生成 公钥、私钥
+    把B的公钥放在A的user的目录的.ssh 的authorized_keys中，可以实现无认证登录
+
+
