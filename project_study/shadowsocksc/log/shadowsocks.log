@@ -1,0 +1,11 @@
+
+2018-03-09 12:18:58 DEBUG    187  chosen server: 0.0.0.0 8388
+2018-03-09 12:18:58 INFO     237  data recv: b'\x05\x02\x00\x02'
+2018-03-09 12:18:58 DEBUG    206  recv client nego data: b'\x05\x02\x00\x02'
+2018-03-09 12:18:58 DEBUG    215  VERSION: 5
+2018-03-09 12:18:58 DEBUG    219  METHOD: 0 NO_AUTHENTICATION
+2018-03-09 12:18:58 DEBUG    219  METHOD: 2 USERNAME_PASSWORD
+2018-03-09 12:18:58 INFO     237  data recv: b'\x05\x01\x00\x03\rwww.baidu.com\x00P'
+header_result: (3, b'www.baidu.com', 80, 0)
+2018-03-09 12:18:58 INFO     360  header_result: (3, b'www.baidu.com', 80, 0)
+2018-03-12 14:24:39 INFO     237  data recv: b''
