@@ -1,0 +1,10 @@
+MANIFEST.in
+kekys.py
+setup.py
+setup.sh
+test.json
+kekys.egg-info/PKG-INFO
+kekys.egg-info/SOURCES.txt
+kekys.egg-info/dependency_links.txt
+kekys.egg-info/entry_points.txt
+kekys.egg-info/top_level.txt

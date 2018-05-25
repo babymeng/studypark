@@ -1,0 +1,5 @@
+
+    [console_scripts]
+    jsonfile = kekys:json_file
+    jsonstr  = kekys:json_str
+    

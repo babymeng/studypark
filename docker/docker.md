@@ -480,3 +480,85 @@ USER <用户名>
 
 `USER`指令和`WORKDIR`相似，都是改变环境状态并影响以后的层。`USER`只是帮你切换到指定的用户，这个用户必须是事先建立好的，否则无法切换。
 
+```shell
+RUN groupadd -r redis && useradd -r -g redis redis
+USER redis
+RUN [ "redis-server" ]
+```
+
+使用`gosu`代替`su`和`sudo`：
+
+```
+RUN groupadd -r redis && useradd -r -g redis redis
+RUN wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.7/gosu-amd64" \
+    && chmod +x /usr/local/bin/gosu \
+    && gosu nobody true
+CMD [ "exec", "gosu", "redis", "redis-server" ]
+```
+
+##### docker save 和 docker load
+
+保存镜像：
+
+```shell
+docker save myimage | gzip > myimage.tar.gz 
+```
+
+加载镜像：
+
+```shell
+docker load -i myimage.tar.gz
+```
+
+一条命令完成镜像的保存迁移工作：
+
+```shell
+docker save <image-name> | bzip2 | pv | ssh <user-name>@<host> 'cat | docker load '
+```
+
+## 操作容器
+
+### 启动容器
+
+启动容器有两种方式，一是基于镜像新建一个容器并启动；而是将在终止状态的容器重新启动。
+
+#### 新建并启动
+
+命令:`docer run`
+
+eg:输出一个'Hello world'并终止容器：
+
+```shell
+keky@macos studypark$docker run ubuntu:16.04 /bin/echo 'Hello world'
+Hello world
+keky@macos studypark$
+```
+
+利用`docker run`来创建容器时，Docker 在后台运行的标准操作包含:
+
+* 检查本地是否存在指定镜像，不存在就从公有仓下载
+* 利用镜像创建并启动一个容器
+* 分配一个文件系统，并从只读的镜像层外面挂载一层可读写层
+* 从宿主主机配置的网桥口中桥接一个虚拟接口到容器中去
+* 从地址池配置一个ip地址给容器
+* 执行用户指定的应用程序
+* 执行完毕后容器被终止
+
+#### 启动已终止的容器
+
+命令：`docker container start`
+
+#### 终止容器
+
+命令：`docker container stop`
+
+### 进入容器
+
+命令：`docker attach`
+
+exit 退出容器会导致容器终止。
+
+命令：`docker exec`
+
+exit 退出，不会导致容器终止。
+
